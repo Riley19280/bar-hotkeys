@@ -1,0 +1,1 @@
+export const supportedLocales = ["cs","de","en","es","fr","hr","it","lt","ru","zh"]
