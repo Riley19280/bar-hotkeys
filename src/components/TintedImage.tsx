@@ -27,17 +27,23 @@ export function TintedImage({
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
+          backgroundImage: `linear-gradient(to top, var(--color-black) 10%, transparent 40%)`,
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
           backgroundImage: `
-            linear-gradient(to top, var(--color-black) 10%, transparent 40%),
-            linear-gradient(to bottom, color-mix(in oklch, var(--color-${tintColor}) 50%, transparent) 0%, transparent 10%),
-            linear-gradient(to right, color-mix(in oklch, var(--color-${tintColor}) 50%, transparent) 0%, transparent 10%),
-            linear-gradient(to left, color-mix(in oklch, var(--color-${tintColor}) 50%, transparent) 0%, transparent 10%)
+            linear-gradient(to bottom, color-mix(in oklch, var(--color-${tintColor}) 20%, transparent) 0%, transparent 20%),
+            linear-gradient(to top, color-mix(in oklch, var(--color-${tintColor}) 20%, transparent) 0%, transparent 20%),
+            linear-gradient(to right, color-mix(in oklch, var(--color-${tintColor}) 20%, transparent) 0%, transparent 20%),
+            linear-gradient(to left, color-mix(in oklch, var(--color-${tintColor}) 20%, transparent) 0%, transparent 20%)
           `,
         }}
       />
 
       {/* Bottom text */}
-      <div className="absolute bottom-0 w-full p-4">
+      <div className="absolute bottom-0 w-full p-2">
         <h3 className="text-white text-[8px] font-semibold drop-shadow">
           {title}
         </h3>

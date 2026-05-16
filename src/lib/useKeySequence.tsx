@@ -1,7 +1,10 @@
 import { useHeldKeys } from '@/lib/useHeldKeys.ts'
 import { useKeyDown } from '@/lib/useKeyDown.ts'
 import { normalizeKey } from '@/lib/utils'
-import { useState } from 'react'
+import {
+  useEffect,
+  useState,
+} from 'react'
 
 type MatchState = 'idle' | 'partial' | 'correct';
 
@@ -9,6 +12,7 @@ const MODIFIERS = ['Ctrl', 'Shift', 'Alt', 'Meta'] as const
 
 interface UseKeySequenceOptions {
   expectedSequence: string[]
+  onCompleted: () => void
 }
 
 function normalizeCombo(combo: string) {
@@ -20,22 +24,28 @@ function normalizeCombo(combo: string) {
    .join('+')
 }
 
-export function useKeySequence({ expectedSequence }: UseKeySequenceOptions) {
+export function useKeySequence({ expectedSequence, onCompleted }: UseKeySequenceOptions) {
   const [index, setIndex] = useState(0)
   const [pressedKeys, setPressedKeys] = useState<string[]>([])
   const [matchState, setMatchState] = useState<MatchState>('idle')
-
   const [heldKeys, setHeldKeys] = useHeldKeys()
+  const [isComplete, setIsComplete] = useState(false)
 
+  console.log('useKeySequence',expectedSequence)
 
-  const reset = () => {
+  useEffect(() => {
+    setIsComplete(false)
     setIndex(0)
     setPressedKeys([])
     setHeldKeys([])
     setMatchState('idle')
-  }
+  }, [expectedSequence])
 
   useKeyDown((e) => {
+      if (isComplete) {
+        return
+      }
+
       const key = normalizeKey(e.key)
 
       const currentCombo = normalizeCombo([...heldKeys, key].join('+'))
@@ -44,8 +54,14 @@ export function useKeySequence({ expectedSequence }: UseKeySequenceOptions) {
       if (expectedCombo.startsWith(currentCombo)) {
         if (currentCombo === expectedCombo) {
           setPressedKeys((p) => [...p, currentCombo])
-          setIndex((i) => i + 1)
+
           setMatchState('correct')
+          if (index === expectedSequence.length - 1) {
+            setIsComplete(true)
+            onCompleted()
+          } else {
+            setIndex((i) => i + 1)
+          }
         } else {
           setMatchState('partial')
         }
@@ -58,7 +74,6 @@ export function useKeySequence({ expectedSequence }: UseKeySequenceOptions) {
     pressedKeys,
     heldKeys,
     matchState,
-    isComplete: index === expectedSequence.length,
-    reset,
+    isComplete,
   }
 }

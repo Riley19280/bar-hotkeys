@@ -1,26 +1,25 @@
 import GridLayouts from '@/bar/gridmenu_layouts.json'
-import { GridmenuKeyActions } from '@/lib/types.ts'
+import { KeyActions } from '@/lib/types.ts'
 
 
 export function convertUnitsToBuildableActions(constructors, keybindActions) {
   const constructorCategories = [
     {
       name: 'ui.buildMenu.category_econ',
-      keys: keybindActions.filter(a => a.action == GridmenuKeyActions.Category1),
+      keys: keybindActions[KeyActions.Gridmenu.Category1].keys,
     },
     {
       name: 'ui.buildMenu.category_combat',
-      keys: keybindActions.filter(a => a.action == GridmenuKeyActions.Category2),
+      keys: keybindActions[KeyActions.Gridmenu.Category2].keys,
     },
     {
       name: 'ui.buildMenu.category_utility',
-      keys: keybindActions.filter(a => a.action == GridmenuKeyActions.Category3),
+      keys: keybindActions[KeyActions.Gridmenu.Category3].keys,
     },
     {
       name: 'ui.buildMenu.category_production',
-      keys: keybindActions.filter(a => a.action == GridmenuKeyActions.Category4),
+      keys: keybindActions[KeyActions.Gridmenu.Category4].keys,
     },
-
   ]
 
   const buildableActions = []
@@ -37,12 +36,19 @@ export function convertUnitsToBuildableActions(constructors, keybindActions) {
             }
 
             const buildAction = {
-              action: gridLayout[row][col],
+              constructor: selectedUnit,
+              unit: gridLayout[row][col],
               keys: [],
             }
 
             for (const categoryKey of category.keys) {
-              buildAction.keys.push(categoryKey.key + ',' + keybindActions.find(x => x.action == GridmenuKeyActions[`Key${row + 1}${col + 1}`])?.key)
+              for (const actionKey of keybindActions[KeyActions.Gridmenu[`Key${row + 1}${col + 1}`]]?.keys) {
+                if (row === 0 && col === 0) {
+                  buildAction.keys.push([categoryKey])
+                } else {
+                  buildAction.keys.push([categoryKey, actionKey])
+                }
+              }
             }
 
             buildableActions.push(buildAction)
@@ -59,8 +65,9 @@ export function convertUnitsToBuildableActions(constructors, keybindActions) {
         const col = index % 4
 
         const buildAction = {
-          action: item,
-          keys: [keybindActions.find(x => x.action == GridmenuKeyActions[`Key${row + 1}${col + 1}`])?.key],
+          constructor: selectedUnit,
+          unit: item,
+          keys: [[keybindActions.find(x => x.action == KeyActions.Gridmenu[`Key${row + 1}${col + 1}`])?.key]],
         }
         buildableActions.push(buildAction)
       }
@@ -68,4 +75,31 @@ export function convertUnitsToBuildableActions(constructors, keybindActions) {
   }
 
   return buildableActions
+}
+
+const MODIFIERS = ['Ctrl', 'Shift', 'Alt', 'Meta', 'Any'] as const
+
+export function getMostNormalKeybind(keySequences: Array<Array<string>>) {
+  return keySequences
+    .map(seq => {
+      const flatSequence = seq
+        .map(x => x.split('+'))
+        .flat()
+
+      const rating = flatSequence.length + flatSequence.filter(x => MODIFIERS.includes(x)).length
+
+      return {
+        rating,
+        sequence: seq,
+      }
+    })
+    .sort((a, b) => a.rating - b.rating)
+    .at(0)
+    .sequence
+}
+
+
+export function normalizeBarKeySequence(sequence: Array<string>) {
+  console.log(new RegExp(`/${MODIFIERS.join('|')}\+/g`))
+  return sequence.map(x => x.replace(new RegExp(`(?:${MODIFIERS.join('|')})\\+`, 'g'), '').replace(/sc_/g, ''))
 }

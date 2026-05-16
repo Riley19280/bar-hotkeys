@@ -28,9 +28,12 @@ declare module '@tanstack/react-router' {
   }
 }
 
+document.querySelector('body')?.classList.add('bg-black')
+
 // Render the app
 const rootElement = document.getElementById('app')
 if (rootElement && !rootElement.innerHTML) {
+  rootElement.classList.add('dark')
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>

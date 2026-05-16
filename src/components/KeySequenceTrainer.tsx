@@ -1,6 +1,6 @@
 import { useKeySequence } from "@/lib/useKeySequence";
 
-export const KeySequenceTrainer = ({ expectedSequence }: { expectedSequence: Array<string> }) => {
+export const KeySequenceTrainer = ({ expectedSequence, onCompleted }: { expectedSequence: Array<string>, onCompleted: () => void }) => {
 
   const {
     pressedKeys,
@@ -10,6 +10,7 @@ export const KeySequenceTrainer = ({ expectedSequence }: { expectedSequence: Arr
     reset,
   } = useKeySequence({
     expectedSequence,
+    onCompleted,
   });
 
   const heldColor =
@@ -83,12 +84,6 @@ export const KeySequenceTrainer = ({ expectedSequence }: { expectedSequence: Arr
         </div>
       )}
 
-      <button
-        onClick={reset}
-        className="rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-700 transition"
-      >
-        Reset
-      </button>
     </div>
   );
 };

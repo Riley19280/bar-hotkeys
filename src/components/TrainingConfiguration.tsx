@@ -1,16 +1,18 @@
-import UnitDefs from '@/bar/unit_defs.json'
 import { convertUnitsToBuildableActions } from '@/lib/bar.ts'
+import type { CategoryDef, Faction } from '@/lib/types.ts'
 import { useKeybindActions } from '@/lib/useKeybindActions.tsx'
+import { ArrowRightIcon } from '@heroicons/react/24/outline'
+import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageToggleButton } from './ImageToggleButton'
 
 interface Section1Props {
-  activeCategories: boolean[];
-  setActiveCategories: (active: boolean[]) => void;
+  activeCategories: boolean[]
+  setActiveCategories: (active: boolean[]) => void
 }
 
-const factions = [
+const factions: Faction[] = [
   {
     name: 'units.factions.arm',
     image: '/bar-assets/factions/armada_default.png',
@@ -23,11 +25,9 @@ const factions = [
     name: 'units.factions.leg',
     image: '/bar-assets/factions/legion_default.png',
   },
-
-
 ]
 
-const categories = [
+const categories: CategoryDef[] = [
   {
     name: 'ui.teamStats.units',
     image: '/bar-assets/armck.png',
@@ -249,7 +249,10 @@ const categories = [
   },
 ]
 
-export function Section1({ activeCategories, setActiveCategories }: Section1Props) {
+export function CategorySelector({
+  activeCategories,
+  setActiveCategories,
+}: Section1Props) {
   const { t } = useTranslation(['interface', 'units'])
 
   const handleToggle = (index: number) => {
@@ -264,12 +267,14 @@ export function Section1({ activeCategories, setActiveCategories }: Section1Prop
 
   return (
     <div className="flex justify-center space-x-4 mb-8">
-      {categories.map((category, i) => (<ImageToggleButton
-        label={t(category.name)}
-        imageSrc={category.image}
-        enabled={activeCategories[i]}
-        onClick={() => handleToggle(i)}
-      />))}
+      {categories.map((category, i) => (
+        <ImageToggleButton
+          label={t(category.name)}
+          imageSrc={category.image}
+          enabled={activeCategories[i]}
+          onClick={() => handleToggle(i)}
+        />
+      ))}
     </div>
   )
 }
@@ -280,15 +285,22 @@ interface Section2Props {
   onUnitsChanged: (units: string[]) => void
 }
 
-export function Section2({ activeCategories, onUnitsChanged }: Section2Props) {
+export function FactionConstructorSelector({
+  activeCategories,
+  onUnitsChanged,
+}: Section2Props) {
   const { t } = useTranslation('units')
 
   // Track enabled state for rows
-  const [factionEnabled, setFactionEnabled] = useState(factions.map(() => false))
+  const [factionEnabled, setFactionEnabled] = useState(
+    factions.map(() => false),
+  )
 
   // Track state for each cell per row
-  const [categoriesState, setCategoriesState] = useState(
-    factions.map((faction, i) => categories.map(category => category.factions[i].map(() => false))), // [faction][category][unit]
+  const [categoriesState, setCategoriesState] = useState<boolean[][][]>(
+    factions.map((faction, i) =>
+      categories.map((category) => category.factions[i].map(() => false)),
+    ), // [faction][category][unit]
   )
 
   const toggleFaction = (factionIndex: number) => {
@@ -298,13 +310,20 @@ export function Section2({ activeCategories, onUnitsChanged }: Section2Props) {
 
     // Toggle all cells in the row to match the new row state
     const newCategoriesState = [...categoriesState]
-    for (const [categoryIndex, categories] of Object.entries(newCategoriesState[factionIndex])) {
+    for (const [categoryIndex, categories] of Object.entries(
+      newCategoriesState[factionIndex],
+    )) {
       if (!activeCategories[categoryIndex]) {
         continue
       }
 
-      for (let i = 0; i < newCategoriesState[factionIndex][categoryIndex].length; i++) {
-        newCategoriesState[factionIndex][categoryIndex][i] = newFactionEnabled[factionIndex]
+      for (
+        let i = 0;
+        i < newCategoriesState[factionIndex][categoryIndex].length;
+        i++
+      ) {
+        newCategoriesState[factionIndex][categoryIndex][i] =
+          newFactionEnabled[factionIndex]
       }
     }
 
@@ -313,12 +332,26 @@ export function Section2({ activeCategories, onUnitsChanged }: Section2Props) {
   }
 
   const getUnitsFromCategories = (newCategoriesState) => {
-    return factions.map((faction, fi) => categories.map((category, ci) => category.factions[fi].map((unit, ui) => newCategoriesState[fi][ci][ui] ? unit.unit : null))).flat(Infinity).filter(x => x)
+    return factions
+      .map((faction, fi) =>
+        categories.map((category, ci) =>
+          category.factions[fi].map((unit, ui) =>
+            newCategoriesState[fi][ci][ui] ? unit.unit : null,
+          ),
+        ),
+      )
+      .flat(Infinity)
+      .filter((x) => x) as string[]
   }
 
-  const toggleCell = (factionIndex: number, categoryIndex: number, unitIndex: number) => {
+  const toggleCell = (
+    factionIndex: number,
+    categoryIndex: number,
+    unitIndex: number,
+  ) => {
     const newCategoriesState = [...categoriesState]
-    newCategoriesState[factionIndex][categoryIndex][unitIndex] = !newCategoriesState[factionIndex][categoryIndex][unitIndex]
+    newCategoriesState[factionIndex][categoryIndex][unitIndex] =
+      !newCategoriesState[factionIndex][categoryIndex][unitIndex]
     setCategoriesState(newCategoriesState)
 
     onUnitsChanged(getUnitsFromCategories(newCategoriesState))
@@ -339,16 +372,22 @@ export function Section2({ activeCategories, onUnitsChanged }: Section2Props) {
           {/* Columns based on active section1 buttons */}
           {activeCategories.map((active, categoryIndex) =>
             active
-            ? categories[categoryIndex].factions[factionIndex].map((unitDef, unitIndex) => (
-              <ImageToggleButton
-                key={`${factionIndex}-${categoryIndex}-${unitIndex}`}
-                label={t(unitDef.name)}
-                imageSrc={unitDef.image}
-                enabled={categoriesState[factionIndex][categoryIndex][unitIndex]}
-                onClick={() => toggleCell(factionIndex, categoryIndex, unitIndex)}
-              />
-            ))
-            : null,
+              ? categories[categoryIndex].factions[factionIndex].map(
+                  (unitDef, unitIndex) => (
+                    <ImageToggleButton
+                      key={`${factionIndex}-${categoryIndex}-${unitIndex}`}
+                      label={t(unitDef.name)}
+                      imageSrc={unitDef.image}
+                      enabled={
+                        categoriesState[factionIndex][categoryIndex][unitIndex]
+                      }
+                      onClick={() =>
+                        toggleCell(factionIndex, categoryIndex, unitIndex)
+                      }
+                    />
+                  ),
+                )
+              : null,
           )}
         </div>
       ))}
@@ -361,30 +400,44 @@ export function TrainingConfiguration() {
 
   const [activeCategories, setActiveCategories] = useState([true, false])
 
-  const [buildable, setBuildable] = useState<string[]>([])
   const [constructors, setConstructors] = useState<string[]>([])
-
 
   const keybindActions = useKeybindActions()
 
+  const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen min-w-screen flex flex-col items-center justify-center p-8 bg-gray-100">
-      <Section1 activeCategories={activeCategories} setActiveCategories={setActiveCategories}/>
-      <div>
-        TODO: Filter by group, eco, combat, util, build
+    <div className="">
+      <CategorySelector
+        activeCategories={activeCategories}
+        setActiveCategories={setActiveCategories}
+      />
+      <div>TODO: Filter by group, eco, combat, util, build</div>
+      <FactionConstructorSelector
+        activeCategories={activeCategories}
+        onUnitsChanged={(constructors) => {
+          setConstructors(constructors)
+        }}
+      />
+      <div className='flex justify-center mt-4'>
+        <button
+          className="flex gap-2 items-center rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:bg-blue-500 dark:hover:bg-blue-400 dark:focus-visible:outline-blue-500"
+          onClick={() => {
+            navigate({
+              to: '/train',
+              state: {
+                actionKeybinds: convertUnitsToBuildableActions(
+                  constructors,
+                  keybindActions,
+                ),
+              },
+            })
+          }}
+        >
+          Start
+          <ArrowRightIcon className="h-4" />
+        </button>
       </div>
-      <Section2 activeCategories={activeCategories} onUnitsChanged={constructors => {
-        setConstructors(constructors)
-        const buildable = Array.from(new Set(constructors.map(constructor => UnitDefs[constructor] ? UnitDefs[constructor].buildoptions : null).flat().filter(x => x)))
-        setBuildable(buildable)
-
-        console.log(convertUnitsToBuildableActions(constructors, keybindActions))
-
-
-      }}/>
-
-      <button className="border bg-gray-500 px-4 py-2 rounded-lg">Start</button>
     </div>
   )
 }
