@@ -100,6 +100,5 @@ export function getMostNormalKeybind(keySequences: Array<Array<string>>) {
 
 
 export function normalizeBarKeySequence(sequence: Array<string>) {
-  console.log(new RegExp(`/${MODIFIERS.join('|')}\+/g`))
   return sequence.map(x => x.replace(new RegExp(`(?:${MODIFIERS.join('|')})\\+`, 'g'), '').replace(/sc_/g, ''))
 }

@@ -293,13 +293,17 @@ export function FactionConstructorSelector({
 
   // Track enabled state for rows
   const [factionEnabled, setFactionEnabled] = useState(
-    factions.map(() => false),
+    factions.map((x, i) => i === 0),
   )
 
   // Track state for each cell per row
   const [categoriesState, setCategoriesState] = useState<boolean[][][]>(
     factions.map((faction, i) =>
-      categories.map((category) => category.factions[i].map(() => false)),
+      categories.map((category) =>
+        category.factions[i].map(
+          () => i === 0 && category.name === 'ui.teamStats.units',
+        ),
+      ),
     ), // [faction][category][unit]
   )
 
@@ -400,7 +404,8 @@ export function TrainingConfiguration() {
 
   const [activeCategories, setActiveCategories] = useState([true, false])
 
-  const [constructors, setConstructors] = useState<string[]>([])
+  const [constructors, setConstructors] = useState<string[]>(['armcom', 'armck', 'armack'])
+  console.log(constructors)
 
   const keybindActions = useKeybindActions()
 
@@ -412,7 +417,7 @@ export function TrainingConfiguration() {
         activeCategories={activeCategories}
         setActiveCategories={setActiveCategories}
       />
-      <div>TODO: Filter by group, eco, combat, util, build</div>
+      <div className='hidden'>TODO: Filter by group, eco, combat, util, build</div>
       <FactionConstructorSelector
         activeCategories={activeCategories}
         onUnitsChanged={(constructors) => {
@@ -421,7 +426,7 @@ export function TrainingConfiguration() {
       />
       <div className='flex justify-center mt-4'>
         <button
-          className="flex gap-2 items-center rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:bg-blue-500 dark:hover:bg-blue-400 dark:focus-visible:outline-blue-500"
+          className="flex gap-2 items-center rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:bg-blue-500 dark:hover:bg-blue-400 dark:focus-visible:outline-blue-500 cursor-pointer"
           onClick={() => {
             navigate({
               to: '/train',

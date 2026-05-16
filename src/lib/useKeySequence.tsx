@@ -31,8 +31,6 @@ export function useKeySequence({ expectedSequence, onCompleted }: UseKeySequence
   const [heldKeys, setHeldKeys] = useHeldKeys()
   const [isComplete, setIsComplete] = useState(false)
 
-  console.log('useKeySequence',expectedSequence)
-
   useEffect(() => {
     setIsComplete(false)
     setIndex(0)
@@ -40,6 +38,16 @@ export function useKeySequence({ expectedSequence, onCompleted }: UseKeySequence
     setHeldKeys([])
     setMatchState('idle')
   }, [expectedSequence])
+
+  useEffect(() => {
+    const handleBlur = () => {
+      setPressedKeys([])
+      setHeldKeys([])
+    }
+    window.addEventListener('blur', handleBlur)
+    return () => window.removeEventListener('blur', handleBlur)
+  }, [])
+
 
   useKeyDown((e) => {
       if (isComplete) {
@@ -50,6 +58,8 @@ export function useKeySequence({ expectedSequence, onCompleted }: UseKeySequence
 
       const currentCombo = normalizeCombo([...heldKeys, key].join('+'))
       const expectedCombo = normalizeCombo(expectedSequence[index])
+
+      console.log({currentCombo, expectedCombo})
 
       if (expectedCombo.startsWith(currentCombo)) {
         if (currentCombo === expectedCombo) {
