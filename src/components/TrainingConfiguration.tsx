@@ -35,51 +35,51 @@ const categories: CategoryDef[] = [
       [
         {
           unit: 'armcom',
-          name: 'units.descriptions.armcom',
+          name: 'units.names.armcom',
           image: '/bar-assets/armcom.png',
         },
         {
           unit: 'armck',
-          name: 'units.descriptions.armck',
+          name: 'units.names.armck',
           image: '/bar-assets/armck.png',
         },
         {
           unit: 'armack',
-          name: 'units.descriptions.armack',
+          name: 'units.names.armack',
           image: '/bar-assets/armack.png',
         },
       ],
       [
         {
           unit: 'corcom',
-          name: 'units.descriptions.corcom',
+          name: 'units.names.corcom',
           image: '/bar-assets/corcom.png',
         },
         {
           unit: 'corck',
-          name: 'units.descriptions.corck',
+          name: 'units.names.corck',
           image: '/bar-assets/corck.png',
         },
         {
           unit: 'corack',
-          name: 'units.descriptions.corack',
+          name: 'units.names.corack',
           image: '/bar-assets/corack.png',
         },
       ],
       [
         {
           unit: 'legcom',
-          name: 'units.descriptions.legcom',
+          name: 'units.names.legcom',
           image: '/bar-assets/legcom.png',
         },
         {
           unit: 'legck',
-          name: 'units.descriptions.legck',
+          name: 'units.names.legck',
           image: '/bar-assets/legck.png',
         },
         {
           unit: 'legack',
-          name: 'units.descriptions.legack',
+          name: 'units.names.legack',
           image: '/bar-assets/legack.png',
         },
       ],
@@ -92,156 +92,156 @@ const categories: CategoryDef[] = [
       [
         {
           unit: 'armlab',
-          name: 'units.descriptions.armlab',
+          name: 'units.names.armlab',
           image: '/bar-assets/armlab.png',
         },
         {
           unit: 'armalab',
-          name: 'units.descriptions.armalab',
+          name: 'units.names.armalab',
           image: '/bar-assets/armalab.png',
         },
         {
           unit: 'armvp',
-          name: 'units.descriptions.armvp',
+          name: 'units.names.armvp',
           image: '/bar-assets/armvp.png',
         },
         {
           unit: 'armavp',
-          name: 'units.descriptions.armavp',
+          name: 'units.names.armavp',
           image: '/bar-assets/armavp.png',
         },
         {
           unit: 'armap',
-          name: 'units.descriptions.armap',
+          name: 'units.names.armap',
           image: '/bar-assets/armap.png',
         },
         {
           unit: 'armaap',
-          name: 'units.descriptions.armaap',
+          name: 'units.names.armaap',
           image: '/bar-assets/armaap.png',
         },
         {
           unit: 'armsy',
-          name: 'units.descriptions.armsy',
+          name: 'units.names.armsy',
           image: '/bar-assets/armsy.png',
         },
         {
           unit: 'armasy',
-          name: 'units.descriptions.armasy',
+          name: 'units.names.armasy',
           image: '/bar-assets/armasy.png',
         },
         {
           unit: 'armhp',
-          name: 'units.descriptions.armhp',
+          name: 'units.names.armhp',
           image: '/bar-assets/armhp.png',
         },
         {
           unit: 'armgant',
-          name: 'units.descriptions.armshltx',
+          name: 'units.names.armshltx',
           image: '/bar-assets/armshltx.png',
         },
       ],
       [
         {
           unit: 'corlab',
-          name: 'units.descriptions.corlab',
+          name: 'units.names.corlab',
           image: '/bar-assets/corlab.png',
         },
         {
           unit: 'coralab',
-          name: 'units.descriptions.coralab',
+          name: 'units.names.coralab',
           image: '/bar-assets/coralab.png',
         },
         {
           unit: 'corvp',
-          name: 'units.descriptions.corvp',
+          name: 'units.names.corvp',
           image: '/bar-assets/corvp.png',
         },
         {
           unit: 'coravp',
-          name: 'units.descriptions.coravp',
+          name: 'units.names.coravp',
           image: '/bar-assets/coravp.png',
         },
         {
           unit: 'corap',
-          name: 'units.descriptions.corap',
+          name: 'units.names.corap',
           image: '/bar-assets/corap.png',
         },
         {
           unit: 'coraap',
-          name: 'units.descriptions.coraap',
+          name: 'units.names.coraap',
           image: '/bar-assets/coraap.png',
         },
         {
           unit: 'corsy',
-          name: 'units.descriptions.corsy',
+          name: 'units.names.corsy',
           image: '/bar-assets/corsy.png',
         },
         {
           unit: 'corasy',
-          name: 'units.descriptions.corasy',
+          name: 'units.names.corasy',
           image: '/bar-assets/corasy.png',
         },
         {
           unit: 'corhp',
-          name: 'units.descriptions.corhp',
+          name: 'units.names.corhp',
           image: '/bar-assets/corhp.png',
         },
         {
           unit: 'corgant',
-          name: 'units.descriptions.corgant',
+          name: 'units.names.corgant',
           image: '/bar-assets/corgant.png',
         },
       ],
       [
         {
           unit: 'leglab',
-          name: 'units.descriptions.leglab',
+          name: 'units.names.leglab',
           image: '/bar-assets/leglab.png',
         },
         {
           unit: 'legalab',
-          name: 'units.descriptions.legalab',
+          name: 'units.names.legalab',
           image: '/bar-assets/legalab.png',
         },
         {
           unit: 'legvp',
-          name: 'units.descriptions.legvp',
+          name: 'units.names.legvp',
           image: '/bar-assets/legvp.png',
         },
         {
           unit: 'legavp',
-          name: 'units.descriptions.legavp',
+          name: 'units.names.legavp',
           image: '/bar-assets/legavp.png',
         },
         {
           unit: 'legap',
-          name: 'units.descriptions.legap',
+          name: 'units.names.legap',
           image: '/bar-assets/legap.png',
         },
         {
           unit: 'legaap',
-          name: 'units.descriptions.legaap',
+          name: 'units.names.legaap',
           image: '/bar-assets/legaap.png',
         },
         {
           unit: 'legsy',
-          name: 'units.descriptions.legsy',
+          name: 'units.names.legsy',
           image: '/bar-assets/legsy.png',
         },
         {
           unit: 'legadvshipyard',
-          name: 'units.descriptions.legadvshipyard',
+          name: 'units.names.legadvshipyard',
           image: '/bar-assets/legadvshipyard.png',
         },
         {
           unit: 'leghp',
-          name: 'units.descriptions.leghp',
+          name: 'units.names.leghp',
           image: '/bar-assets/leghp.png',
         },
         {
           unit: 'leggant',
-          name: 'units.descriptions.leggant',
+          name: 'units.names.leggant',
           image: '/bar-assets/leggant.png',
         },
       ],
@@ -405,7 +405,6 @@ export function TrainingConfiguration() {
   const [activeCategories, setActiveCategories] = useState([true, false])
 
   const [constructors, setConstructors] = useState<string[]>(['armcom', 'armck', 'armack'])
-  console.log(constructors)
 
   const keybindActions = useKeybindActions()
 
