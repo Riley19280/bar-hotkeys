@@ -1,5 +1,7 @@
+import { Footer } from '@/components/Footer.tsx'
 import { KeySequenceTrainer } from '@/components/KeySequenceTrainer.tsx'
 import { Modal } from '@/components/Modal.tsx'
+import { StatisticsPanel } from '@/components/StatisticsPanel.tsx'
 import { Slider } from '@/components/Slider.tsx'
 import { Toggle } from '@/components/Toggle.tsx'
 import { Tooltip } from '@/components/Tooltip.tsx'
@@ -44,6 +46,13 @@ function IndexComponent() {
       showLabels: true,
     },
   )
+
+
+  const [stats, setStats] = useVersionedLocalStorage(1, 'statistics', {
+    totalAttempts: 0,
+    units: {},
+  })
+
 
   return (
     <div className="relative min-h-screen">
@@ -126,10 +135,24 @@ function IndexComponent() {
               onChange={(v) => setSettings({ ...settings, nextUnitDelay: v })}
             />
           </div>
+          <div className="pt-2 border-t border-white/10">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm text-gray-300">Statistics</span>
+                <Tooltip content="Resets all statistics." />
+              </div>
+              <button
+                onClick={() => setStats({ totalAttempts: 0, units: {} })}
+                className="text-xs font-medium text-red-400 hover:text-red-300 transition-colors cursor-pointer"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
         </div>
       </Modal>
 
-      <div className="flex min-h-screen flex-col items-center justify-center gap-8 px-6 py-16">
+      <div className="flex flex-col items-center justify-center gap-8 px-6 mt-32">
         <div className="flex items-center gap-8">
           <div className="flex flex-col items-center gap-2">
             <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">
@@ -185,23 +208,40 @@ function IndexComponent() {
             </div>
           </div>
         </div>
+        <StatisticsPanel totalAttempts={stats.totalAttempts} units={stats.units} />
+
         <KeySequenceTrainer
           expectedSequence={normalizeBarKeySequence(
             getMostNormalKeybind(action.keys),
           )}
           settings={settings}
-          onCompleted={() => {
-            setTimeout(
-              () =>
-                setAction(
-                  actionKeybinds[
-                    Math.floor(Math.random() * (actionKeybinds.length - 1))
-                  ],
-                ),
-              settings.nextUnitDelay,
+          onCompleted={(durationMs) => {
+            const newStats = stats
+            newStats.totalAttempts += 1
+
+            if (!stats.units[action.unit]) {
+              stats.units[action.unit] = {
+                total: durationMs,
+                count: 1,
+              }
+            } else {
+              stats.units[action.unit].total += durationMs
+              stats.units[action.unit].count += 1
+            }
+
+            setStats(newStats)
+          }}
+          onNext={() => {
+            setAction(
+              actionKeybinds[
+                Math.floor(Math.random() * (actionKeybinds.length - 1))
+              ],
             )
           }}
         />
+      </div>
+      <div className="fixed bottom-0 inset-x-0">
+        <Footer />
       </div>
     </div>
   )
