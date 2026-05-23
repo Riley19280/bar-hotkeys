@@ -22,7 +22,11 @@ export function convertUnitsToBuildableActions(constructors, keybindActions) {
     },
   ]
 
-  const buildableActions = []
+  const buildableActions: Array<{
+    constructor: string
+    unit: string
+    keys: string[][]
+  }> = []
 
   for (let selectedUnit of constructors) {
     if (GridLayouts.UnitGrids[selectedUnit]) {
@@ -61,12 +65,12 @@ export function convertUnitsToBuildableActions(constructors, keybindActions) {
           continue
         }
 
-        const row = Math.floor(index / 4)
-        const col = index % 4
+        const row = Math.floor(Number(index) / 4)
+        const col = Number(index) % 4
 
         const buildAction = {
-          constructor: selectedUnit,
-          unit: item,
+          constructor: selectedUnit as string,
+          unit: item as string,
           keys: [[keybindActions.find(x => x.action == KeyActions.Gridmenu[`Key${row + 1}${col + 1}`])?.key]],
         }
         buildableActions.push(buildAction)

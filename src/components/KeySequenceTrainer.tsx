@@ -1,4 +1,3 @@
-import { useVersionedLocalStorage } from '@/lib/useVersionedLocalStorage.ts'
 import { cn } from '@/lib/utils.ts'
 import {
   getSequenceManager,
@@ -14,7 +13,7 @@ interface KeySequenceTrainerProps {
   expectedSequence: Array<string>
   onCompleted: (durationMs: number) => void
   onNext: () => void
-  settings?: { showSequence: boolean; showPressed: boolean; nextUnitDelay: int }
+  settings?: { showSequence: boolean; showPressed: boolean; nextUnitDelay: number }
 }
 
 export const KeySequenceTrainer = ({ expectedSequence, onNext, onCompleted, settings }: KeySequenceTrainerProps) => {
@@ -44,11 +43,11 @@ export const KeySequenceTrainer = ({ expectedSequence, onNext, onCompleted, sett
 
   useHotkeySequence(expectedSequence as HotkeySequence, myOnCompleted)
 
-  const registration = getSequenceManager().registrations.state.entries().next().value?.at(1)
+  const [, registration] = getSequenceManager().registrations.state.entries().next().value ?? []
   const matchedSteps = registration ? registration.matchedStepCount : 0
 
   const completedAndShouldVisualize =
-    completed && settings?.nextUnitDelay >= 200
+    completed && (settings?.nextUnitDelay ?? 0) >= 200
 
   return (
     <div

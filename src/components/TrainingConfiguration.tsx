@@ -409,7 +409,6 @@ export function FactionConstructorSelector({
 }
 
 export function TrainingConfiguration() {
-  const { t } = useTranslation(['units', 'interface'])
 
   const [activeCategories, setActiveCategories] = useState([true, false])
 

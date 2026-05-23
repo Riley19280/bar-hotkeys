@@ -2,17 +2,12 @@ import { Footer } from '@/components/Footer.tsx'
 import { TrainingConfiguration } from '@/components/TrainingConfiguration.tsx'
 import { createFileRoute } from '@tanstack/react-router'
 import {
-  BoltIcon,
-  UsersIcon,
-  CalendarDaysIcon,
   CloudArrowUpIcon,
   ArrowPathIcon,
   Cog6ToothIcon,
   FingerPrintIcon,
   LockClosedIcon,
   ServerIcon,
-  ChevronRightIcon,
-  ArrowRightIcon,
 } from '@heroicons/react/24/outline'
 
 

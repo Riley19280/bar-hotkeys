@@ -2,8 +2,8 @@ import {
   useLocalStorage,
 } from '@uidotdev/usehooks'
 import {
-  Dispatch,
-  SetStateAction,
+  type Dispatch,
+  type SetStateAction,
   useCallback,
   useEffect,
   useMemo,
