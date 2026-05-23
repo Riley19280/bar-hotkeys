@@ -5,6 +5,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FanRow } from './FanItem'
 import { ImageToggleButton } from './ImageToggleButton'
 
 interface Section1Props {
@@ -363,38 +364,46 @@ export function FactionConstructorSelector({
 
   return (
     <div className="flex flex-col items-center">
-      {factions.map((faction, factionIndex) => (
-        <div key={faction.name} className="flex items-center">
-          {/* Faction row toggle */}
-          <ImageToggleButton
-            label={t(faction.name)}
-            imageSrc={faction.image}
-            enabled={factionEnabled[factionIndex]}
-            onClick={() => toggleFaction(factionIndex)}
-          />
+      {factions.map((faction, factionIndex) => {
+        const items: Array<{ key: string; node: React.ReactNode }> = []
 
-          {/* Columns based on active section1 buttons */}
-          {activeCategories.map((active, categoryIndex) =>
-            active
-              ? categories[categoryIndex].factions[factionIndex].map(
-                  (unitDef, unitIndex) => (
-                    <ImageToggleButton
-                      key={`${factionIndex}-${categoryIndex}-${unitIndex}`}
-                      label={t(unitDef.name)}
-                      imageSrc={unitDef.image}
-                      enabled={
-                        categoriesState[factionIndex][categoryIndex][unitIndex]
-                      }
-                      onClick={() =>
-                        toggleCell(factionIndex, categoryIndex, unitIndex)
-                      }
-                    />
-                  ),
-                )
-              : null,
-          )}
-        </div>
-      ))}
+        items.push({
+          key: 'faction',
+          node: (
+            <ImageToggleButton
+              label={t(faction.name)}
+              imageSrc={faction.image}
+              enabled={factionEnabled[factionIndex]}
+              onClick={() => toggleFaction(factionIndex)}
+            />
+          ),
+        })
+
+        activeCategories.forEach((active, categoryIndex) => {
+          if (!active) return
+          categories[categoryIndex].factions[factionIndex].forEach(
+            (unitDef, unitIndex) => {
+              items.push({
+                key: `${categoryIndex}-${unitIndex}`,
+                node: (
+                  <ImageToggleButton
+                    label={t(unitDef.name)}
+                    imageSrc={unitDef.image}
+                    enabled={
+                      categoriesState[factionIndex][categoryIndex][unitIndex]
+                    }
+                    onClick={() =>
+                      toggleCell(factionIndex, categoryIndex, unitIndex)
+                    }
+                  />
+                ),
+              })
+            },
+          )
+        })
+
+        return <FanRow key={faction.name} items={items} />
+      })}
     </div>
   )
 }

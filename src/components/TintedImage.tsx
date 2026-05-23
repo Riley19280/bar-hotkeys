@@ -16,7 +16,7 @@ export function TintedImage({
   // Keep these for tailwind whitelist
   // bg-red-500 bg-green-800
   return (
-    <div className="relative overflow-hidden group w-28 h-28">
+    <div className="relative overflow-hidden group w-28 h-28 rounded-md">
       {/* Image */}
       <img
         src={src}
