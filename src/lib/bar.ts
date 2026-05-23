@@ -1,9 +1,12 @@
 import GridLayouts from '@/bar/gridmenu_layouts.json'
+import type {
+  BuildableAction,
+} from '@/lib/types.ts'
 import {
   KeyActions,
 } from '@/lib/types.ts'
 
-export function convertUnitsToBuildableActions(constructors, keybindActions) {
+export function convertUnitsToBuildableActions(constructors: string[], keybindActions: { [action: string]: { action: string, keys: string[] } }) {
   const constructorCategories = [
     {
       name: 'ui.buildMenu.category_econ',
@@ -23,15 +26,11 @@ export function convertUnitsToBuildableActions(constructors, keybindActions) {
     },
   ]
 
-  const buildableActions: Array<{
-    constructor: string
-    unit: string
-    keys: string[][]
-  }> = []
+  const buildableActions: Array<BuildableAction> = []
 
   for (const selectedUnit of constructors) {
     if (GridLayouts.UnitGrids[selectedUnit]) {
-      for (const [gridLayoutIndex, gridLayout] of Object.entries(GridLayouts.UnitGrids[selectedUnit])) {
+      for (const [gridLayoutIndex, gridLayout] of Object.entries(GridLayouts.UnitGrids[selectedUnit]) as [string, (string)[][]][]) {
         const category = constructorCategories[gridLayoutIndex]
 
         for (let row = 0; row < 3; row++) {
@@ -40,7 +39,7 @@ export function convertUnitsToBuildableActions(constructors, keybindActions) {
               continue
             }
 
-            const buildAction = {
+            const buildAction: BuildableAction = {
               constructor: selectedUnit,
               unit: gridLayout[row][col],
               keys: [],
@@ -69,12 +68,14 @@ export function convertUnitsToBuildableActions(constructors, keybindActions) {
         const row = Math.floor(Number(index) / 4)
         const col = Number(index) % 4
 
-        const buildAction = {
-          constructor: selectedUnit as string,
+        const buildAction: BuildableAction = {
+          constructor: selectedUnit,
           unit: item as string,
-          keys: [[keybindActions.find(x => x.action == KeyActions.Gridmenu[`Key${row + 1}${col + 1}`])?.key]],
+          keys: [],
         }
-        buildableActions.push(buildAction)
+        for (const actionKey of keybindActions[KeyActions.Gridmenu[`Key${row + 1}${col + 1}`]]?.keys ?? []) {
+          buildAction.keys.push([actionKey])
+        }
       }
     }
   }
@@ -91,7 +92,7 @@ export function getMostNormalKeybind(keySequences: Array<Array<string>>) {
         .map(x => x.split('+'))
         .flat()
 
-      const rating = flatSequence.length + flatSequence.filter(x => MODIFIERS.includes(x)).length
+      const rating = flatSequence.length + flatSequence.filter(x => (MODIFIERS as readonly string[]).includes(x)).length
 
       return {
         rating,
@@ -100,7 +101,7 @@ export function getMostNormalKeybind(keySequences: Array<Array<string>>) {
     })
     .sort((a, b) => a.rating - b.rating)
     .at(0)
-    .sequence
+    ?.sequence ?? []
 }
 
 export function normalizeBarKeySequence(sequence: Array<string>) {

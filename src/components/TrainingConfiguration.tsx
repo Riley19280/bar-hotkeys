@@ -289,7 +289,8 @@ export function CategorySelector({
     <div className="flex justify-center space-x-4 mb-8">
       {categories.map((category, i) => (
         <ImageToggleButton
-          label={t(category.name)}
+          key={category.name}
+          label={t(category.name as any)}
           imageSrc={category.image}
           enabled={activeCategories[i]}
           onClick={() => handleToggle(i)}
@@ -390,7 +391,7 @@ export function FactionConstructorSelector({
           key: 'faction',
           node: (
             <ImageToggleButton
-              label={t(faction.name)}
+              label={t(faction.name as any)}
               imageSrc={faction.image}
               enabled={factionEnabled[factionIndex]}
               onClick={() => toggleFaction(factionIndex)}
@@ -406,7 +407,7 @@ export function FactionConstructorSelector({
                 key: `${categoryIndex}-${unitIndex}`,
                 node: (
                   <ImageToggleButton
-                    label={t(unitDef.name)}
+                    label={t(unitDef.name as any)}
                     imageSrc={unitDef.image}
                     enabled={
                       categoriesState[factionIndex][categoryIndex][unitIndex]

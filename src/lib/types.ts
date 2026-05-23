@@ -15,6 +15,18 @@ export interface CategoryDef {
   factions: Array<UnitDef>[]
 }
 
+export interface BuildableAction {
+  constructor: string
+  unit: string
+  keys: string[][]
+}
+
+declare module '@tanstack/react-router' {
+  interface HistoryState {
+    actionKeybinds?: BuildableAction[]
+  }
+}
+
 export const KeyActions = {
   Gridmenu: {
     Category1: 'gridmenu_category 1',

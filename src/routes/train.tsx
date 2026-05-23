@@ -53,9 +53,12 @@ function IndexComponent() {
 
   const { actionKeybinds } = routerState.location.state
 
-  const [action, setAction] = useState(
-    actionKeybinds[Math.floor(Math.random() * (actionKeybinds.length - 1))],
-  )
+  const [action, setAction] = useState(() => {
+    if (actionKeybinds)
+      return actionKeybinds[Math.floor(Math.random() * (actionKeybinds.length - 1))]
+    else
+      return undefined
+  })
   const [settingsOpen, setSettingsOpen] = useState(false)
 
   const [settings, setSettings] = useVersionedLocalStorage(
@@ -74,7 +77,7 @@ function IndexComponent() {
     units: {},
   })
 
-  if (!actionKeybinds) {
+  if (!actionKeybinds || !action) {
     return <Navigate to="/" hash="train" />
   }
 
@@ -197,7 +200,7 @@ function IndexComponent() {
               {settings.showLabels && (
                 <div className="absolute bottom-0 w-full px-3 py-2 text-center">
                   <span className="text-white text-xs font-semibold drop-shadow">
-                    {t(`units.names.${action.constructor}`)}
+                    {t(`units.names.${action.constructor}` as any)}
                   </span>
                 </div>
               )}
@@ -224,7 +227,7 @@ function IndexComponent() {
               {settings.showLabels && (
                 <div className="absolute bottom-0 w-full px-3 py-2 text-center">
                   <span className="text-white text-xs font-semibold drop-shadow">
-                    {t(`units.names.${action.unit}`)}
+                    {t(`units.names.${action.unit}` as any)}
                   </span>
                 </div>
               )}

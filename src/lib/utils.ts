@@ -19,8 +19,8 @@ const throwReferenceError = () => {
   throw new ReferenceError('Callback was called directly while rendering, pass it as a callback prop instead.')
 }
 
-export function useStableCallback(callback, deps) {
-  const ref = useRef(throwReferenceError)
+export function useStableCallback<T extends unknown[]>(callback: (...args: T) => void, deps: unknown[]) {
+  const ref = useRef<(...args: T) => void>(throwReferenceError)
 
   // update stored callback ref if callback or deps change
   useEffect(() => {
@@ -29,7 +29,7 @@ export function useStableCallback(callback, deps) {
   }, [callback, ...deps])
 
   // return stable wrapped callback
-  return useCallback((...args) => {
+  return useCallback((...args: T) => {
     ref.current(...args)
   }, [ref])
 }

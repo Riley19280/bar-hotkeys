@@ -82,7 +82,7 @@ export const KeySequenceTrainer = ({ expectedSequence, onNext, onCompleted, sett
         {showSequence && (
           <div>
             <h3 className="mb-2 text-xs font-semibold uppercase tracking-widest text-gray-500">
-              Expected sequence
+              Expected Keys
             </h3>
             <div className="flex gap-2 flex-wrap">
               {expectedSequence.map((k, i) => (
@@ -105,7 +105,7 @@ export const KeySequenceTrainer = ({ expectedSequence, onNext, onCompleted, sett
         {showPressed && (
           <div>
             <h3 className="my-2 text-xs font-semibold uppercase tracking-widest text-gray-500">
-              Currently held
+              Pressed Keys
             </h3>
             <div className="flex gap-2 flex-wrap min-h-8">
               {heldKeys.length === 0
