@@ -1,5 +1,10 @@
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import { useEffect, useRef } from 'react'
+import {
+  XMarkIcon,
+} from '@heroicons/react/24/outline'
+import {
+  useEffect,
+  useRef,
+} from 'react'
 
 interface ModalProps {
   open: boolean

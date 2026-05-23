@@ -1,21 +1,47 @@
-import { Footer } from '@/components/Footer.tsx'
-import { KeySequenceTrainer } from '@/components/KeySequenceTrainer.tsx'
-import { Modal } from '@/components/Modal.tsx'
-import { StatisticsPanel } from '@/components/StatisticsPanel.tsx'
-import { Slider } from '@/components/Slider.tsx'
-import { Toggle } from '@/components/Toggle.tsx'
-import { Tooltip } from '@/components/Tooltip.tsx'
-import { getMostNormalKeybind, normalizeBarKeySequence } from '@/lib/bar.ts'
-import { useVersionedLocalStorage } from '@/lib/useVersionedLocalStorage.ts'
-import { ArrowLeftIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
+import {
+  ArrowLeftIcon,
+  Cog6ToothIcon,
+} from '@heroicons/react/24/outline'
 import {
   createFileRoute,
   Link,
   Navigate,
   useRouterState,
 } from '@tanstack/react-router'
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import {
+  useState,
+} from 'react'
+import {
+  useTranslation,
+} from 'react-i18next'
+import {
+  Footer,
+} from '@/components/Footer.tsx'
+import {
+  KeySequenceTrainer,
+} from '@/components/KeySequenceTrainer.tsx'
+import {
+  Modal,
+} from '@/components/Modal.tsx'
+import {
+  Slider,
+} from '@/components/Slider.tsx'
+import {
+  StatisticsPanel,
+} from '@/components/StatisticsPanel.tsx'
+import {
+  Toggle,
+} from '@/components/Toggle.tsx'
+import {
+  Tooltip,
+} from '@/components/Tooltip.tsx'
+import {
+  getMostNormalKeybind,
+  normalizeBarKeySequence,
+} from '@/lib/bar.ts'
+import {
+  useVersionedLocalStorage,
+} from '@/lib/useVersionedLocalStorage.ts'
 
 export const Route = createFileRoute('/train')({
   component: IndexComponent,
@@ -26,10 +52,6 @@ function IndexComponent() {
   const { t } = useTranslation(['units'])
 
   const { actionKeybinds } = routerState.location.state
-
-  if (!actionKeybinds) {
-    return <Navigate to="/" hash="train" />
-  }
 
   const [action, setAction] = useState(
     actionKeybinds[Math.floor(Math.random() * (actionKeybinds.length - 1))],
@@ -47,12 +69,14 @@ function IndexComponent() {
     },
   )
 
-
   const [stats, setStats] = useVersionedLocalStorage(1, 'statistics', {
     totalAttempts: 0,
     units: {},
   })
 
+  if (!actionKeybinds) {
+    return <Navigate to="/" hash="train" />
+  }
 
   return (
     <div className="relative min-h-screen">
@@ -89,7 +113,7 @@ function IndexComponent() {
             </div>
             <Toggle
               checked={settings.showSequence}
-              onChange={(v) => setSettings({ ...settings, showSequence: v })}
+              onChange={v => setSettings({ ...settings, showSequence: v })}
               label=""
             />
           </div>
@@ -100,7 +124,7 @@ function IndexComponent() {
             </div>
             <Toggle
               checked={settings.showPressed}
-              onChange={(v) => setSettings({ ...settings, showPressed: v })}
+              onChange={v => setSettings({ ...settings, showPressed: v })}
               label=""
             />
           </div>
@@ -111,28 +135,27 @@ function IndexComponent() {
             </div>
             <Toggle
               checked={settings.showLabels}
-              onChange={(v) => setSettings({ ...settings, showLabels: v })}
+              onChange={v => setSettings({ ...settings, showLabels: v })}
               label=""
             />
           </div>
           <div className="pt-2">
             <Slider
-              label={
+              label={(
                 <div className="flex items-center gap-1.5">
                   <span className="text-sm text-gray-300">Next unit delay</span>
                   <Tooltip content="How long to wait after completing a sequence before advancing to the next unit." />
                 </div>
-              }
+              )}
               value={settings.nextUnitDelay}
               min={0}
               max={3000}
               step={100}
-              format={(v) =>
+              format={v =>
                 v === 0
                   ? 'Instant'
-                  : `${(v / 1000).toFixed(2).replace(/\.?0+$/, '')}s`
-              }
-              onChange={(v) => setSettings({ ...settings, nextUnitDelay: v })}
+                  : `${(v / 1000).toFixed(2).replace(/\.?0+$/, '')}s`}
+              onChange={v => setSettings({ ...settings, nextUnitDelay: v })}
             />
           </div>
           <div className="pt-2 border-t border-white/10">

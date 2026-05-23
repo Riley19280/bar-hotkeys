@@ -1,6 +1,7 @@
 import GridLayouts from '@/bar/gridmenu_layouts.json'
-import { KeyActions } from '@/lib/types.ts'
-
+import {
+  KeyActions,
+} from '@/lib/types.ts'
 
 export function convertUnitsToBuildableActions(constructors, keybindActions) {
   const constructorCategories = [
@@ -28,7 +29,7 @@ export function convertUnitsToBuildableActions(constructors, keybindActions) {
     keys: string[][]
   }> = []
 
-  for (let selectedUnit of constructors) {
+  for (const selectedUnit of constructors) {
     if (GridLayouts.UnitGrids[selectedUnit]) {
       for (const [gridLayoutIndex, gridLayout] of Object.entries(GridLayouts.UnitGrids[selectedUnit])) {
         const category = constructorCategories[gridLayoutIndex]
@@ -46,7 +47,7 @@ export function convertUnitsToBuildableActions(constructors, keybindActions) {
             }
 
             for (const categoryKey of category.keys) {
-              for (const actionKey of keybindActions[KeyActions.Gridmenu[`Key${row + 1}${col + 1}`]]?.keys) {
+              for (const actionKey of keybindActions[KeyActions.Gridmenu[`Key${row + 1}${col + 1}`]]?.keys ?? []) {
                 if (row === 0 && col === 0) {
                   buildAction.keys.push([categoryKey])
                 } else {
@@ -85,7 +86,7 @@ const MODIFIERS = ['Ctrl', 'Shift', 'Alt', 'Meta', 'Any'] as const
 
 export function getMostNormalKeybind(keySequences: Array<Array<string>>) {
   return keySequences
-    .map(seq => {
+    .map((seq) => {
       const flatSequence = seq
         .map(x => x.split('+'))
         .flat()
@@ -101,7 +102,6 @@ export function getMostNormalKeybind(keySequences: Array<Array<string>>) {
     .at(0)
     .sequence
 }
-
 
 export function normalizeBarKeySequence(sequence: Array<string>) {
   return sequence.map(x => x.replace(new RegExp(`(?:${MODIFIERS.join('|')})\\+`, 'g'), '').replace(/sc_/g, ''))

@@ -1,5 +1,9 @@
-import { InformationCircleIcon } from '@heroicons/react/24/outline'
-import { useState } from 'react'
+import {
+  InformationCircleIcon,
+} from '@heroicons/react/24/outline'
+import {
+  useState,
+} from 'react'
 
 interface TooltipProps {
   content: string

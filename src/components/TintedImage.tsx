@@ -6,13 +6,11 @@ type TintedImageProps = {
 }
 
 export function TintedImage({
-                              src,
-                              alt,
-                              title,
-                              tintColor = 'green-800',
-                            }: TintedImageProps) {
-
-
+  src,
+  alt,
+  title,
+  tintColor = 'green-800',
+}: TintedImageProps) {
   // Keep these for tailwind whitelist
   // bg-red-500 bg-green-800
   return (

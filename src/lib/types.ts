@@ -4,9 +4,9 @@ export interface Faction {
 }
 
 export interface UnitDef {
-  unit: string,
-  name: string,
-  image: string,
+  unit: string
+  name: string
+  image: string
 }
 
 export interface CategoryDef {

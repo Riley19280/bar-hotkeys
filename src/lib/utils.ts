@@ -7,7 +7,9 @@ import {
   useEffect,
   useRef,
 } from 'react'
-import { twMerge } from 'tailwind-merge'
+import {
+  twMerge,
+} from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -31,7 +33,6 @@ export function useStableCallback(callback, deps) {
     ref.current(...args)
   }, [ref])
 }
-
 
 export function normalizeKey(e: string): string {
   if (e === ' ') return 'Space'

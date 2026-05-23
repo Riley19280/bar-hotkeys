@@ -1,12 +1,31 @@
-import { convertUnitsToBuildableActions } from '@/lib/bar.ts'
-import type { CategoryDef, Faction } from '@/lib/types.ts'
-import { useKeybindActions } from '@/lib/useKeybindActions.tsx'
-import { ArrowRightIcon } from '@heroicons/react/24/outline'
-import { useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { FanRow } from './FanItem'
-import { ImageToggleButton } from './ImageToggleButton'
+import {
+  ArrowRightIcon,
+} from '@heroicons/react/24/outline'
+import {
+  useNavigate,
+} from '@tanstack/react-router'
+import {
+  useState,
+} from 'react'
+import {
+  useTranslation,
+} from 'react-i18next'
+import {
+  FanRow,
+} from './FanItem'
+import {
+  ImageToggleButton,
+} from './ImageToggleButton'
+import {
+  convertUnitsToBuildableActions,
+} from '@/lib/bar.ts'
+import type {
+  CategoryDef,
+  Faction,
+} from '@/lib/types.ts'
+import {
+  useKeybindActions,
+} from '@/lib/useKeybindActions.tsx'
 
 interface Section1Props {
   activeCategories: boolean[]
@@ -300,7 +319,7 @@ export function FactionConstructorSelector({
   // Track state for each cell per row
   const [categoriesState, setCategoriesState] = useState<boolean[][][]>(
     factions.map((faction, i) =>
-      categories.map((category) =>
+      categories.map(category =>
         category.factions[i].map(
           () => i === 0 && category.name === 'ui.teamStats.units',
         ),
@@ -315,7 +334,7 @@ export function FactionConstructorSelector({
 
     // Toggle all cells in the row to match the new row state
     const newCategoriesState = [...categoriesState]
-    for (const [categoryIndex, categories] of Object.entries(
+    for (const [categoryIndex, _categories] of Object.entries(
       newCategoriesState[factionIndex],
     )) {
       if (!activeCategories[categoryIndex]) {
@@ -327,8 +346,8 @@ export function FactionConstructorSelector({
         i < newCategoriesState[factionIndex][categoryIndex].length;
         i++
       ) {
-        newCategoriesState[factionIndex][categoryIndex][i] =
-          newFactionEnabled[factionIndex]
+        newCategoriesState[factionIndex][categoryIndex][i]
+          = newFactionEnabled[factionIndex]
       }
     }
 
@@ -346,7 +365,7 @@ export function FactionConstructorSelector({
         ),
       )
       .flat(Infinity)
-      .filter((x) => x) as string[]
+      .filter(x => x) as string[]
   }
 
   const toggleCell = (
@@ -355,8 +374,8 @@ export function FactionConstructorSelector({
     unitIndex: number,
   ) => {
     const newCategoriesState = [...categoriesState]
-    newCategoriesState[factionIndex][categoryIndex][unitIndex] =
-      !newCategoriesState[factionIndex][categoryIndex][unitIndex]
+    newCategoriesState[factionIndex][categoryIndex][unitIndex]
+      = !newCategoriesState[factionIndex][categoryIndex][unitIndex]
     setCategoriesState(newCategoriesState)
 
     onUnitsChanged(getUnitsFromCategories(newCategoriesState))
@@ -365,7 +384,7 @@ export function FactionConstructorSelector({
   return (
     <div className="w-full flex flex-col items-center">
       {factions.map((faction, factionIndex) => {
-        const items: Array<{ key: string; node: React.ReactNode }> = []
+        const items: Array<{ key: string, node: React.ReactNode }> = []
 
         items.push({
           key: 'faction',
@@ -393,8 +412,7 @@ export function FactionConstructorSelector({
                       categoriesState[factionIndex][categoryIndex][unitIndex]
                     }
                     onClick={() =>
-                      toggleCell(factionIndex, categoryIndex, unitIndex)
-                    }
+                      toggleCell(factionIndex, categoryIndex, unitIndex)}
                   />
                 ),
               })
@@ -409,7 +427,6 @@ export function FactionConstructorSelector({
 }
 
 export function TrainingConfiguration() {
-
   const [activeCategories, setActiveCategories] = useState([true, false])
 
   const [constructors, setConstructors] = useState<string[]>(['armcom', 'armck', 'armack'])
@@ -424,14 +441,14 @@ export function TrainingConfiguration() {
         activeCategories={activeCategories}
         setActiveCategories={setActiveCategories}
       />
-      <div className='hidden'>TODO: Filter by group, eco, combat, util, build</div>
+      <div className="hidden">TODO: Filter by group, eco, combat, util, build</div>
       <FactionConstructorSelector
         activeCategories={activeCategories}
         onUnitsChanged={(constructors) => {
           setConstructors(constructors)
         }}
       />
-      <div className='flex justify-center mt-4'>
+      <div className="flex justify-center mt-4">
         <button
           className="flex gap-2 items-center rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:bg-blue-500 dark:hover:bg-blue-400 dark:focus-visible:outline-blue-500 cursor-pointer"
           onClick={() => {

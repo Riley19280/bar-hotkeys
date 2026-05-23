@@ -1,4 +1,8 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import {
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 
 const CARD_WIDTH = 112 // w-28 = 7rem
 
@@ -47,7 +51,7 @@ export function FanItem({ children, index, hoveredIndex, onHover, angle, spacing
   )
 }
 
-export function FanRow({ items }: { items: Array<{ key: string; node: React.ReactNode }> }) {
+export function FanRow({ items }: { items: Array<{ key: string, node: React.ReactNode }> }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const rowRef = useRef<HTMLDivElement>(null)
   const [containerWidth, setContainerWidth] = useState(0)
@@ -72,18 +76,18 @@ export function FanRow({ items }: { items: Array<{ key: string; node: React.Reac
 
   return (
     <div ref={rowRef} className="w-full flex items-center justify-center py-4">
-        {items.map(({ key, node }, i) => (
-          <FanItem
-            key={key}
-            index={i}
-            hoveredIndex={hoveredIndex}
-            onHover={setHoveredIndex}
-            angle={angle}
-            spacing={spacing}
-          >
-            {node}
-          </FanItem>
-        ))}
+      {items.map(({ key, node }, i) => (
+        <FanItem
+          key={key}
+          index={i}
+          hoveredIndex={hoveredIndex}
+          onHover={setHoveredIndex}
+          angle={angle}
+          spacing={spacing}
+        >
+          {node}
+        </FanItem>
+      ))}
     </div>
   )
 }

@@ -1,5 +1,9 @@
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import {
+  useState,
+} from 'react'
+import {
+  useTranslation,
+} from 'react-i18next'
 
 interface UnitStat {
   total: number
@@ -46,8 +50,7 @@ export function StatisticsPanel({ totalAttempts, units }: StatisticsPanelProps) 
                   {avg < 1000 ? `${Math.round(avg)}ms` : `${(avg / 1000).toFixed(2)}s`}
                 </span>
               </div>
-            ))
-          }
+            ))}
         </div>
       )}
     </div>

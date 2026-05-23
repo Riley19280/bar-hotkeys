@@ -1,8 +1,10 @@
-import { normalizeKey } from '@/lib/utils.ts'
 import {
   useEffect,
   useState,
 } from 'react'
+import {
+  normalizeKey,
+} from '@/lib/utils.ts'
 
 export function useHeldKeys() {
   const [heldKeys, setHeldKeys] = useState<Array<string>>([])
@@ -24,7 +26,6 @@ export function useHeldKeys() {
 
     const handleKeyUp = (e: KeyboardEvent) => {
       const key = normalizeKey(e.key)
-
 
       setHeldKeys((prev) => {
         const next = [...prev]

@@ -1,4 +1,3 @@
-import { cn } from '@/lib/utils.ts'
 import {
   getSequenceManager,
 } from '@tanstack/hotkeys'
@@ -7,13 +6,20 @@ import {
   useHeldKeys,
   useHotkeySequence,
 } from '@tanstack/react-hotkeys'
-import { useEffect, useRef, useState } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import {
+  cn,
+} from '@/lib/utils.ts'
 
 interface KeySequenceTrainerProps {
   expectedSequence: Array<string>
   onCompleted: (durationMs: number) => void
   onNext: () => void
-  settings?: { showSequence: boolean; showPressed: boolean; nextUnitDelay: number }
+  settings?: { showSequence: boolean, showPressed: boolean, nextUnitDelay: number }
 }
 
 export const KeySequenceTrainer = ({ expectedSequence, onNext, onCompleted, settings }: KeySequenceTrainerProps) => {
@@ -46,8 +52,8 @@ export const KeySequenceTrainer = ({ expectedSequence, onNext, onCompleted, sett
   const [, registration] = getSequenceManager().registrations.state.entries().next().value ?? []
   const matchedSteps = registration ? registration.matchedStepCount : 0
 
-  const completedAndShouldVisualize =
-    completed && (settings?.nextUnitDelay ?? 0) >= 200
+  const completedAndShouldVisualize
+    = completed && (settings?.nextUnitDelay ?? 0) >= 200
 
   return (
     <div
@@ -102,22 +108,24 @@ export const KeySequenceTrainer = ({ expectedSequence, onNext, onCompleted, sett
               Currently held
             </h3>
             <div className="flex gap-2 flex-wrap min-h-8">
-              {heldKeys.length === 0 ? (
-                <span className="text-sm text-gray-600">—</span>
-              ) : (
-                heldKeys.map((k) => (
-                  <span
-                    key={k}
-                    className="rounded-md px-3 py-1 text-sm font-semibold text-white bg-blue-500/30 ring-1 ring-blue-500/50"
-                  >
-                    {k}
-                  </span>
-                ))
-              )}
+              {heldKeys.length === 0
+                ? (
+                    <span className="text-sm text-gray-600">—</span>
+                  )
+                : (
+                    heldKeys.map(k => (
+                      <span
+                        key={k}
+                        className="rounded-md px-3 py-1 text-sm font-semibold text-white bg-blue-500/30 ring-1 ring-blue-500/50"
+                      >
+                        {k}
+                      </span>
+                    ))
+                  )}
             </div>
           </div>
         )}
       </div>
     </div>
   )
-};
+}

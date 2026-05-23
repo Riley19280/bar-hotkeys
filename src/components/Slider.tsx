@@ -1,7 +1,9 @@
-import type { ReactNode } from 'react'
+import type {
+  ReactNode,
+} from 'react'
 
 interface SliderProps {
-  label: string|ReactNode
+  label: string | ReactNode
   value: number
   min: number
   max: number
@@ -25,7 +27,7 @@ export function Slider({ label, value, min, max, step, format, onChange }: Slide
         max={max}
         step={step}
         value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
+        onChange={e => onChange(Number(e.target.value))}
         className="w-full h-1.5 rounded-full appearance-none bg-gray-700 accent-blue-500 cursor-pointer"
       />
     </div>
