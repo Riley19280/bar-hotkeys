@@ -113,7 +113,7 @@ function App() {
 
         {/* CTA section */}
 
-        <div id="train" className="relative isolate mt-12 px-6  lg:px-8">
+        <div id="train" className="relative isolate mt-12 px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-4xl font-semibold tracking-tight text-balance text-gray-900 sm:text-5xl dark:text-white">
               Customize your training
@@ -121,9 +121,9 @@ function App() {
             <p className="mx-auto mt-6 max-w-xl text-lg/8 text-pretty text-gray-600 dark:text-gray-300">
               Choose which units you'd like to practice with
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <TrainingConfiguration />
-            </div>
+          </div>
+          <div className="mx-auto mt-10 max-w-3xl lg:max-w-5xl xl:max-w-7xl">
+            <TrainingConfiguration />
           </div>
         </div>
 

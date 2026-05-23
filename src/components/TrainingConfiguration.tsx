@@ -363,7 +363,7 @@ export function FactionConstructorSelector({
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="w-full flex flex-col items-center">
       {factions.map((faction, factionIndex) => {
         const items: Array<{ key: string; node: React.ReactNode }> = []
 
@@ -420,7 +420,7 @@ export function TrainingConfiguration() {
   const navigate = useNavigate()
 
   return (
-    <div className="">
+    <div className="w-full">
       <CategorySelector
         activeCategories={activeCategories}
         setActiveCategories={setActiveCategories}
