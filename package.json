@@ -2,6 +2,8 @@
   "name": "bar-hotkeys",
   "private": true,
   "type": "module",
+  "os": ["darwin", "linux"],
+  "cpu": ["x64", "arm64"],
   "scripts": {
     "dev": "vite --port 3000",
     "build": "vite build && tsc",
